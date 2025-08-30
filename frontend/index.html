@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="/content/images/brand/captain.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>D2Drafter</title>
+  <script>
+    (function () {
+      const src = '/content/images/brand/captain.png';
+      const size = 64; // favicon size
+      const canvas = document.createElement('canvas');
+      canvas.width = size; canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, size, size);
+      const img = new Image();
+      img.onload = function () {
+        const scale = Math.min(size / img.width, size / img.height);
+        const w = img.width * scale;
+        const h = img.height * scale;
+        const x = (size - w) / 2;
+        const y = (size - h) / 2;
+        ctx.drawImage(img, x, y, w, h);
+        let link = document.querySelector('link[rel="icon"]');
+        if (!link) { link = document.createElement('link'); link.rel = 'icon'; document.head.appendChild(link); }
+        link.type = 'image/png';
+        link.href = canvas.toDataURL('image/png');
+      };
+      img.src = src;
+    })();
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
+</html>

@@ -32,6 +32,10 @@ jobs:
       - name: Build frontend
         working-directory: frontend
         run: npm run build
+      - name: Ensure content is included in dist
+        run: |
+          mkdir -p frontend/dist
+          cp -R content frontend/dist/
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

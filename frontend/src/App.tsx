@@ -2,11 +2,12 @@ import { Link, NavLink, Outlet } from 'react-router-dom'
 import './App.css'
 
 function App() {
+  const BASE = import.meta.env.BASE_URL
   return (
     <div className="app-root">
       <nav className="top-nav">
         <Link to="/draft" className="brand">
-          <img className="brand-icon" src="/content/images/brand/captain.png" alt="" />
+          <img className="brand-icon" src={`${BASE}content/images/brand/captain.png`} alt="" />
           <span>D2Drafter</span>
         </Link>
         <div className="nav-links">

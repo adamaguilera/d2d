@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { createHashRouter, RouterProvider } from 'react-router-dom'
+import { createHashRouter, RouterProvider, Navigate } from 'react-router-dom'
 import './index.css'
 import App from './App.tsx'
 import DraftPage from './pages/DraftPage'
@@ -12,7 +12,7 @@ const router = createHashRouter([
     path: '/',
     element: <App />,
     children: [
-      { index: true, element: <DraftPage /> },
+      { index: true, element: <Navigate to="/draft" replace /> },
       { path: '/draft', element: <DraftPage /> },
       { path: '/ban', element: <BanPage /> },
       { path: '/about', element: <AboutPage /> },

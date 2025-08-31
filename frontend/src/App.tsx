@@ -5,7 +5,7 @@ function App() {
   return (
     <div className="app-root">
       <nav className="top-nav">
-        <Link to="/" className="brand">
+        <Link to="/draft" className="brand">
           <img className="brand-icon" src="/content/images/brand/captain.png" alt="" />
           <span>D2Drafter</span>
         </Link>

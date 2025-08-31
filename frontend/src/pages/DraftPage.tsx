@@ -1,6 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 
 const BASE = import.meta.env.BASE_URL
+function withBase(path: string): string {
+    const normalized = path.startsWith('/') ? path.slice(1) : path
+    return `${BASE}${normalized}`
+}
 
 type Hero = {
     slug: string
@@ -138,7 +142,7 @@ export default function DraftPage() {
                                 }}
                             >
                                 {pick.hero ? (
-                                    <img src={pick.hero.image} alt={pick.hero.name} style={{ width: '100%', height: 'auto', display: 'block' }} />
+                                    <img src={withBase(pick.hero.image)} alt={pick.hero.name} style={{ width: '100%', height: 'auto', display: 'block' }} />
                                 ) : (
                                     <div style={{ height: 88.88, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', color: '#888' }}>Select</div>
                                 )}
@@ -220,7 +224,7 @@ export default function DraftPage() {
                                             textAlign: 'center',
                                         }}
                                     >
-                                        <img src={h.image} alt={h.name} style={{ width: '100%', height: 'auto', objectFit: 'contain', objectPosition: 'top center', display: 'block' }} />
+                                        <img src={withBase(h.image)} alt={h.name} style={{ width: '100%', height: 'auto', objectFit: 'contain', objectPosition: 'top center', display: 'block' }} />
                                         <div style={{ fontSize: 14, padding: 2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', border: '1px solid #eee' }}>{h.name}</div>
                                     </button>
                                 ))}

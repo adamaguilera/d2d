@@ -1,10 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { withBase } from '../lib/paths'
 
-const BASE = import.meta.env.BASE_URL
-function withBase(path: string): string {
-    const normalized = path.startsWith('/') ? path.slice(1) : path
-    return `${BASE}${normalized}`
-}
+// BASE_URL handled via withBase()
 
 type Hero = {
     slug: string
@@ -53,7 +50,7 @@ export default function DraftPage() {
     const filterInputRef = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
-        fetch(`${BASE}data/heroes.json`)
+        fetch(withBase('data/heroes.json'))
             .then((r) => r.json())
             .then((j) => setHeroes(j.heroes as Hero[]))
             .catch(() => setHeroes([]))
@@ -248,7 +245,7 @@ function useCounterResults(patch: string, enemySlugs: string[], enemyPicks: Enem
     useEffect(() => {
         if (!patch) return
         // Load all hero matchup JSON files for the patch
-        const base = `${BASE}content/counter/${patch}`
+        const base = withBase(`content/counter/${patch}`)
         fetch(`${base}/metadata.json`).catch(() => null)
         const heroSlugs = heroesIndexCache
         Promise.all(
@@ -310,7 +307,7 @@ function useHeroRoles(patch: string): Record<string, string[]> {
 
     useEffect(() => {
         if (!patch) return
-        const base = `${BASE}content/roles/${patch}`
+        const base = withBase(`content/roles/${patch}`)
         const heroSlugs = heroesIndexCache
         Promise.all(
             heroSlugs.map((slug) =>
@@ -393,7 +390,7 @@ function ResultsTable({ results, enemies, patch }: { results: CounterResult[]; e
                             <th key={e.slug} style={{ textAlign: 'right', padding: 8, borderBottom: '1px solid #ddd' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 6 }}>
                                     <span>vs</span>
-                                    <img src={`${BASE}content/images/heroes/${e.slug}.png`} alt={`vs ${e.name}`} style={{ width: 28, height: 28, borderRadius: 4, objectFit: 'cover' }} />
+                                    <img src={withBase(`content/images/heroes/${e.slug}.png`)} alt={`vs ${e.name}`} style={{ width: 28, height: 28, borderRadius: 4, objectFit: 'cover' }} />
                                 </div>
                             </th>
                         ))}
@@ -404,7 +401,7 @@ function ResultsTable({ results, enemies, patch }: { results: CounterResult[]; e
                         <tr key={r.hero}>
                             <td style={{ padding: 8, borderBottom: '1px solid #f0f0f0' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                                    <img src={`${BASE}content/images/heroes/${r.hero}.png`} alt={r.hero} style={{ width: 28, height: 28, borderRadius: 4, objectFit: 'cover' }} />
+                                    <img src={withBase(`content/images/heroes/${r.hero}.png`)} alt={r.hero} style={{ width: 28, height: 28, borderRadius: 4, objectFit: 'cover' }} />
                                     <span style={{ textTransform: 'capitalize' }}>{r.hero.replace(/-/g, ' ')}</span>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                                         {rolesByHero[r.hero] && rolesByHero[r.hero].length > 0 ? (
@@ -413,7 +410,7 @@ function ResultsTable({ results, enemies, patch }: { results: CounterResult[]; e
                                                 return (
                                                     <img
                                                         key={role}
-                                                        src={`${BASE}content/images/roles/${file}.png`}
+                                                        src={withBase(`content/images/roles/${file}.png`)}
                                                         alt={role}
                                                         title={role}
                                                         style={{ width: 16, height: 16, objectFit: 'contain' }}
@@ -483,7 +480,7 @@ function ResultsTable({ results, enemies, patch }: { results: CounterResult[]; e
                                                 color: '#111827', cursor: 'pointer'
                                             }}
                                         >
-                                            <img src={`${BASE}content/images/roles/${file}.png`} alt={role} title={role} style={{ width: 16, height: 16 }} />
+                                            <img src={withBase(`content/images/roles/${file}.png`)} alt={role} title={role} style={{ width: 16, height: 16 }} />
                                             <span style={{ textTransform: 'capitalize', fontSize: 12 }}>{role}</span>
                                         </button>
                                     )

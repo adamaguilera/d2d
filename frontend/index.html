@@ -3,12 +3,13 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/png" href="/content/images/brand/captain.png" />
+  <link rel="icon" type="image/png" href="./content/images/brand/captain.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>D2Drafter</title>
   <script>
     (function () {
-      const src = '/content/images/brand/captain.png';
+      var existingLink = document.querySelector('link[rel="icon"]');
+      const src = existingLink ? existingLink.href : './content/images/brand/captain.png';
       const size = 64; // favicon size
       const canvas = document.createElement('canvas');
       canvas.width = size; canvas.height = size;

@@ -251,6 +251,9 @@ def main():
 
                     print("    Parsing matchups …")
                     matchups = parse_html_to_matchups(html)
+                    # Ensure deterministic order: sort alphabetically by opponent slug
+                    matchups = sorted(
+                        matchups, key=lambda r: r.get("opponent", ""))
 
                     now_iso = (
                         dt.datetime.now(dt.timezone.utc)

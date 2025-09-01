@@ -77,5 +77,15 @@ export default defineConfig(() => {
         allow: [repoRoot],
       },
     },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: undefined,
+        },
+      },
+    },
+    preview: {
+      port: 4173,
+    },
   }
 })

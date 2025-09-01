@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { createHashRouter, RouterProvider, Navigate } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import './index.css'
 import App from './App.tsx'
 import DraftPage from './pages/DraftPage'
@@ -8,7 +8,7 @@ import BanPage from './pages/BanPage'
 import AboutPage from './pages/AboutPage'
 import { initAnalytics } from './lib/analytics'
 
-const router = createHashRouter([
+const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,

@@ -18,7 +18,7 @@ function App() {
       <nav className="top-nav">
         <Link to="/draft" className="brand">
           <img className="brand-icon" src={withBase('content/images/brand/captain.png')} alt="" />
-          <span>D2Drafter</span>
+          <span>D2Draft</span>
         </Link>
         <div className="nav-links">
           <NavLink to="/draft" className={({ isActive }) => `nav-link${isActive ? ' is-active' : ''}`}>Draft</NavLink>

@@ -216,8 +216,8 @@ def main():
             if out_path.exists():
                 try:
                     existing = json.loads(out_path.read_text(encoding="utf-8"))
-                    meta = (existing or {}).get("metadata") or {}
-                    updated_at_str = meta.get("updated_at")
+                    # Prefer top-level updated_at; fall back to legacy metadata.updated_at
+                    updated_at_str = (existing or {}).get("updated_at") or ((existing or {}).get("metadata") or {}).get("updated_at")
                     if updated_at_str:
                         # Parse date from ISO string; treat 'Z' as UTC
                         try:
@@ -260,8 +260,8 @@ def main():
                     payload: Dict[str, Any] = {
                         "hero": slug,
                         "patch": args.patch,
+                        "updated_at": now_iso,
                         "matchups": matchups,
-                        "metadata": {"updated_at": now_iso},
                     }
 
                     out_path.write_text(

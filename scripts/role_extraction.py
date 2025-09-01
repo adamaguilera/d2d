@@ -332,13 +332,16 @@ def compute_selected_roles(counts: Dict[str, int]) -> List[str]:
 
 
 def already_up_to_date(path: Path) -> bool:
-    """Return True if JSON exists and its 'updated_at' equals TODAY."""
+    """Return True if JSON exists and its 'updated_at' equals TODAY.
+
+    Supports both top-level 'updated_at' and legacy 'metadata.updated_at'.
+    """
     if not path.exists():
         return False
     try:
         with path.open("r", encoding="utf-8") as f:
             data = json.load(f)
-        return data.get("updated_at") == TODAY
+        return (data.get("updated_at") or (data.get("metadata") or {}).get("updated_at")) == TODAY
     except Exception:
         return False
 

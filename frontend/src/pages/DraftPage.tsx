@@ -38,6 +38,7 @@ const PATCHES = ['7.39D']
 export default function DraftPage() {
     const [patch, setPatch] = useState<string>(PATCHES[0])
     const [heroes, setHeroes] = useState<Hero[]>([])
+    const [updatedAt, setUpdatedAt] = useState<string | null>(null)
     const [enemyPicks, setEnemyPicks] = useState<EnemyPick[]>([
         { hero: null, weight: 0.5 },
         { hero: null, weight: 0.5 },
@@ -55,6 +56,23 @@ export default function DraftPage() {
             .then((j) => setHeroes(j.heroes as Hero[]))
             .catch(() => setHeroes([]))
     }, [])
+
+    // Load metadata for the selected patch (to show updated_at)
+    useEffect(() => {
+        if (!patch) return
+        const metaUrl = withBase(`content/matchups/${patch}/metadata.json`)
+        fetch(metaUrl)
+            .then((r) => (r.ok ? r.json() : null))
+            .then((j) => setUpdatedAt(j?.updated_at ?? null))
+            .catch(() => setUpdatedAt(null))
+    }, [patch])
+
+    const updatedAtLabel = useMemo(() => {
+        if (!updatedAt) return ''
+        const d = new Date(updatedAt)
+        if (isNaN(d.getTime())) return ''
+        return d.toISOString().slice(0, 10) // YYYY-MM-DD in UTC
+    }, [updatedAt])
 
     // Focus filter input on open and allow closing with Escape
     useEffect(() => {
@@ -117,6 +135,11 @@ export default function DraftPage() {
                         </option>
                     ))}
                 </select>
+                {updatedAtLabel && (
+                    <span style={{ fontSize: 12, color: '#666' }} title={updatedAt || undefined}>
+                        Updated {updatedAtLabel}
+                    </span>
+                )}
             </section>
 
             <section>

@@ -56,30 +56,6 @@ jobs:
           git commit --allow-empty -m "chore: prepare data refresh for ${{ steps.date.outputs.today }}"
           git push --set-upstream origin auto-${{ steps.date.outputs.stamp }}
 
-      - name: Create Pull Request (early to validate token)
-        id: cpr
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ env.PR_TOKEN }}
-          title: "Data refresh for ${{ steps.date.outputs.today }}"
-          body: |
-            Automated data refresh triggered by schedule.
-            - Timezone: America/New_York at 10:00
-            - Script: scripts/full_extraction.py
-          branch: auto-${{ steps.date.outputs.stamp }}
-          base: main
-          delete-branch: true
-          author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
-          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
-          draft: false
-
-      - name: Enable auto-merge on PR
-        if: ${{ steps.cpr.outputs.pull-request-number != '' }}
-        uses: peter-evans/enable-pull-request-automerge@v3
-        with:
-          token: ${{ env.PR_TOKEN }}
-          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
-          merge-method: squash
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -121,5 +97,30 @@ jobs:
           else
             echo "No content changes to commit."
           fi
+
+      - name: Create or update Pull Request (after commit)
+        id: ghpr
+        env:
+          GH_TOKEN: ${{ env.PR_TOKEN }}
+        run: |
+          if gh pr view auto-${{ steps.date.outputs.stamp }} >/dev/null 2>&1; then
+            echo "PR already exists for branch auto-${{ steps.date.outputs.stamp }}"
+          else
+            gh pr create \
+              --title "Data refresh for ${{ steps.date.outputs.today }}" \
+              --body "Automated data refresh run ${{ steps.date.outputs.stamp }}" \
+              --base main \
+              --head auto-${{ steps.date.outputs.stamp }}
+          fi
+          pr_number=$(gh pr view auto-${{ steps.date.outputs.stamp }} --json number -q .number)
+          echo "number=$pr_number" >> $GITHUB_OUTPUT
+
+      - name: Enable auto-merge on PR
+        if: ${{ steps.ghpr.outputs.number != '' }}
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ env.PR_TOKEN }}
+          pull-request-number: ${{ steps.ghpr.outputs.number }}
+          merge-method: squash
 
 

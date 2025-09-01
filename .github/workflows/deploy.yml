@@ -38,8 +38,6 @@ jobs:
         run: |
           mkdir -p frontend/dist
           cp -R content frontend/dist/
-      - name: Remove any CNAME to use project domain
-        run: rm -f frontend/dist/CNAME
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

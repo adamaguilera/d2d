@@ -31,6 +31,56 @@ jobs:
       #       exit 0
       #     fi
 
+      - name: Compute branch date (America/New_York)
+        id: date
+        run: |
+          echo "today=$(TZ=America/New_York date +%F)" >> $GITHUB_OUTPUT
+          echo "stamp=$(TZ=America/New_York date +%F-%H-%M)" >> $GITHUB_OUTPUT
+
+      - name: Resolve PR token
+        run: |
+          if [ -n "${{ secrets.CREATE_PR_TOKEN }}" ]; then
+            echo "PR_TOKEN=${{ secrets.CREATE_PR_TOKEN }}" >> $GITHUB_ENV
+          else
+            echo "PR_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
+          fi
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Create PR branch early
+        run: |
+          git checkout -b auto-${{ steps.date.outputs.stamp }}
+          git commit --allow-empty -m "chore: prepare data refresh for ${{ steps.date.outputs.today }}"
+          git push --set-upstream origin auto-${{ steps.date.outputs.stamp }}
+
+      - name: Create Pull Request (early to validate token)
+        id: cpr
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ env.PR_TOKEN }}
+          title: "Data refresh for ${{ steps.date.outputs.today }}"
+          body: |
+            Automated data refresh triggered by schedule.
+            - Timezone: America/New_York at 10:00
+            - Script: scripts/full_extraction.py
+          branch: auto-${{ steps.date.outputs.stamp }}
+          base: main
+          delete-branch: true
+          author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          draft: false
+
+      - name: Enable auto-merge on PR
+        if: ${{ steps.cpr.outputs.pull-request-number != '' }}
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ env.PR_TOKEN }}
+          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+          merge-method: squash
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -61,40 +111,15 @@ jobs:
           . venv/bin/activate
           python full_extraction.py --headless
 
-      - name: Compute branch date (America/New_York)
-        id: date
+      - name: Commit content changes to PR branch
         run: |
-          echo "today=$(TZ=America/New_York date +%F)" >> $GITHUB_OUTPUT
-          echo "stamp=$(TZ=America/New_York date +%F-%H-%M)" >> $GITHUB_OUTPUT
-
-      - name: Create Pull Request with content changes
-        id: cpr
-        uses: peter-evans/create-pull-request@v6
-        with:
-          # Use a PAT with repo scope to avoid GITHUB_TOKEN restrictions that can
-          # cause "not permitted to create or approve pull requests" errors.
-          token: ${{ secrets.CREATE_PR_TOKEN }}
-          commit-message: "data: auto-refresh content for ${{ steps.date.outputs.today }}"
-          title: "Data refresh for ${{ steps.date.outputs.today }}"
-          body: |
-            Automated data refresh triggered by schedule.
-            - Timezone: America/New_York at 10:00
-            - Script: scripts/full_extraction.py
-          branch: auto-${{ steps.date.outputs.stamp }}
-          base: main
-          add-paths: |
-            content/**
-          delete-branch: true
-          author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
-          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
-          draft: false
-
-      - name: Enable auto-merge on PR
-        if: ${{ steps.cpr.outputs.pull-request-number != '' }}
-        uses: peter-evans/enable-pull-request-automerge@v3
-        with:
-          token: ${{ secrets.CREATE_PR_TOKEN }}
-          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
-          merge-method: squash
+          git checkout auto-${{ steps.date.outputs.stamp }}
+          git add content/** || true
+          if ! git diff --cached --quiet; then
+            git commit -m "data: auto-refresh content for ${{ steps.date.outputs.today }}"
+            git push
+          else
+            echo "No content changes to commit."
+          fi
 
 

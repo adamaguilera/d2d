@@ -63,7 +63,9 @@ jobs:
 
       - name: Compute branch date (America/New_York)
         id: date
-        run: echo "today=$(TZ=America/New_York date +%F)" >> $GITHUB_OUTPUT
+        run: |
+          echo "today=$(TZ=America/New_York date +%F)" >> $GITHUB_OUTPUT
+          echo "stamp=$(TZ=America/New_York date +%F-%H-%M)" >> $GITHUB_OUTPUT
 
       - name: Create Pull Request with content changes
         id: cpr
@@ -78,7 +80,7 @@ jobs:
             Automated data refresh triggered by schedule.
             - Timezone: America/New_York at 10:00
             - Script: scripts/full_extraction.py
-          branch: auto-${{ steps.date.outputs.today }}
+          branch: auto-${{ steps.date.outputs.stamp }}
           base: main
           add-paths: |
             content/**

@@ -12,7 +12,7 @@ Differences from extractor.py + parser.py:
 - Uses robust retry logic per hero (up to --retries with --retry-sleep seconds)
 
 Defaults:
-- Patch is assumed to be 7.39D (can be overridden via --patch)
+- Patch is auto-detected from dota2.com (can be overridden via --patch)
 """
 
 import argparse
@@ -23,6 +23,7 @@ import sys
 import time
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup  # pip install beautifulsoup4
 
@@ -170,8 +171,8 @@ def main():
         description="Full extraction: discover slugs, fetch counters, parse, and save JSON.")
     ap.add_argument("--out-root", default="../content/matchups",
                     help="Output root directory (default: ../content/matchups)")
-    ap.add_argument("--patch", default="7.39D",
-                    help="Patch label (default: 7.39D)")
+    ap.add_argument("--patch", default="auto",
+                    help="Patch label (default: auto; resolves via dota2.com/patches)")
     ap.add_argument("--headless", action=argparse.BooleanOptionalAction, default=True,
                     help="Run Chrome headless (default: True). Use --no-headless to disable.")
     ap.add_argument("--timeout", type=int, default=25,
@@ -188,13 +189,54 @@ def main():
                     help="Seconds to sleep between retries (default: 5)")
     args = ap.parse_args()
 
-    out_dir = Path(args.out_root).resolve() / args.patch
+    driver = build_driver(headless=args.headless)
+
+    # Determine patch label (auto-detect from dota2.com when requested)
+    def detect_latest_patch(driver, base_url: str = "https://www.dota2.com/patches/") -> Optional[str]:
+        try:
+            print(f"Detecting latest patch: opening {base_url} …")
+            driver.get(base_url)
+            time.sleep(0.8)  # allow redirect to settle
+            current = driver.current_url or base_url
+            print(f"Patch detection: redirected to {current}")
+            parsed = urlparse(current)
+            parts = [p for p in parsed.path.split("/") if p]
+            patch_seg: Optional[str] = None
+            for i, seg in enumerate(parts):
+                if seg.lower() == "patches" and i + 1 < len(parts):
+                    patch_seg = parts[i + 1]
+                    break
+            if not patch_seg and parts:
+                patch_seg = parts[-1]
+            if patch_seg:
+                detected = patch_seg.strip().upper()
+                print(
+                    f"Patch detection: parsed patch segment '{patch_seg}' → '{detected}'")
+                return detected
+        except WebDriverException as e:
+            print(
+                f"Warning: failed to auto-detect patch from dota2.com: {e}", file=sys.stderr)
+        return None
+
+    if not args.patch or str(args.patch).lower() == "auto":
+        print("Patch flag is 'auto'. Attempting to detect latest patch from dota2.com …")
+        detected_patch = detect_latest_patch(driver)
+        if detected_patch:
+            patch_label = detected_patch
+            print(f"Using detected patch: {patch_label}")
+        else:
+            patch_label = "7.XX"
+            print(
+                f"Falling back to default patch: {patch_label}", file=sys.stderr)
+    else:
+        patch_label = args.patch
+        print(f"Using provided patch: {patch_label}")
+
+    out_dir = Path(args.out_root).resolve() / patch_label
     out_dir.mkdir(parents=True, exist_ok=True)
 
     print(f"Output directory: {out_dir}")
-    print(f"Patch: {args.patch}")
-
-    driver = build_driver(headless=args.headless)
+    print(f"Patch: {patch_label}")
 
     saved_paths: List[Path] = []
     failures: List[str] = []
@@ -263,7 +305,7 @@ def main():
                     )
                     payload: Dict[str, Any] = {
                         "hero": slug,
-                        "patch": args.patch,
+                        "patch": patch_label,
                         "updated_at": now_iso,
                         "matchups": matchups,
                     }
@@ -307,7 +349,7 @@ def main():
             .isoformat()
             .replace("+00:00", "Z")
         ),
-        "patch": args.patch,
+        "patch": patch_label,
     }
     meta_path = out_dir / "metadata.json"
     meta_path.write_text(json.dumps(metadata, indent=2,

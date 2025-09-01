@@ -1,0 +1,87 @@
+name: Daily data refresh
+
+on:
+  schedule:
+    # 10:00 America/New_York crosses DST; run at both UTC times and let script be idempotent
+    - cron: '0 14 * * *' # 10:00 EDT
+    - cron: '0 15 * * *' # 10:00 EST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: data-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Temporarily disabled so manual runs can test end-to-end
+      # - name: Run only at 10:00 America/New_York
+      #   run: |
+      #     hour=$(TZ=America/New_York date +%H)
+      #     if [ "$hour" != "10" ]; then
+      #       echo "Current hour in New York is $hour, not 10. Exiting."
+      #       exit 0
+      #     fi
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: scripts/requirements.txt
+
+      - name: Setup Chrome (for Selenium)
+        uses: browser-actions/setup-chrome@v1
+
+      - name: Show Chrome version
+        run: |
+          google-chrome --version || chromium --version || true
+
+      - name: Create venv and install requirements
+        working-directory: scripts
+        run: |
+          python -m venv venv
+          . venv/bin/activate
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run full extraction
+        working-directory: scripts
+        env:
+          TZ: America/New_York
+        run: |
+          . venv/bin/activate
+          python full_extraction.py --headless
+
+      - name: Compute branch date (America/New_York)
+        id: date
+        run: echo "today=$(TZ=America/New_York date +%F)" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request with content changes
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "data: auto-refresh content for ${{ steps.date.outputs.today }}"
+          title: "Data refresh for ${{ steps.date.outputs.today }}"
+          body: |
+            Automated data refresh triggered by schedule.
+            - Timezone: America/New_York at 10:00
+            - Script: scripts/full_extraction.py
+          branch: auto-${{ steps.date.outputs.today }}
+          base: main
+          add-paths: |
+            content/**
+          delete-branch: true
+          author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          draft: false
+
+

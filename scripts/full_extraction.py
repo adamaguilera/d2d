@@ -217,7 +217,8 @@ def main():
                 try:
                     existing = json.loads(out_path.read_text(encoding="utf-8"))
                     # Prefer top-level updated_at; fall back to legacy metadata.updated_at
-                    updated_at_str = (existing or {}).get("updated_at") or ((existing or {}).get("metadata") or {}).get("updated_at")
+                    updated_at_str = (existing or {}).get("updated_at") or (
+                        (existing or {}).get("metadata") or {}).get("updated_at")
                     if updated_at_str:
                         # Parse date from ISO string; treat 'Z' as UTC
                         try:

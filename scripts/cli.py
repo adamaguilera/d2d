@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 Dota counter CLI:
-- Choose a date (autocomplete from ../content/counter/*).
-- Enter up to five enemy hero slugs (autocomplete from ../content/counter/<date>/*.json; type END to stop early).
+- Choose a date (autocomplete from ../content/matchups/*).
+- Enter up to five enemy hero slugs (autocomplete from ../content/matchups/<date>/*.json; type END to stop early).
 - Assign a weight (0..1, default 1) per enemy.
 - Output the top 10 heroes with highest combined counter score (weighted log-odds of winrates).
 
@@ -26,7 +26,7 @@ from glob import glob
 from pathlib import Path
 from typing import Dict, List, Tuple, Optional
 
-BASE_DIR = Path("../content/counter")
+BASE_DIR = Path("../content/matchups")
 
 # ---------- Utilities ----------
 

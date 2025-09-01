@@ -154,7 +154,7 @@ def main():
     ap.add_argument("--input-dir", required=True,
                     help="Path like ./content/snapshot/2025-08-28/")
     ap.add_argument("--out-root", default="content/counter",
-                    help="Output root (default: ./content/counter)")
+                    help="Output root (default: ./content/matchups)")
     ap.add_argument("--glob", default="*.html",
                     help="File pattern (default: *.html)")
     ap.add_argument("--patch", default="7.XX",

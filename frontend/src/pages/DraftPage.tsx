@@ -1,8 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { withBase } from '../lib/paths'
 
-// BASE_URL handled via withBase()
-
 type Hero = {
     slug: string
     name: string
@@ -268,7 +266,7 @@ function useCounterResults(patch: string, enemySlugs: string[], enemyPicks: Enem
     useEffect(() => {
         if (!patch) return
         // Load all hero matchup JSON files for the patch
-        const base = withBase(`content/counter/${patch}`)
+        const base = withBase(`content/matchups/${patch}`)
         fetch(`${base}/metadata.json`).catch(() => null)
         const heroSlugs = heroesIndexCache
         Promise.all(

@@ -1,18 +1,8 @@
-import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
+import { Link, NavLink, Outlet } from 'react-router-dom'
 import { withBase } from './lib/paths'
 import './App.css'
-import { useEffect } from 'react'
-import { trackPageview } from './lib/analytics'
 
 function App() {
-  const location = useLocation()
-
-  useEffect(() => {
-    if (import.meta.env.PROD) {
-      trackPageview(location.pathname + location.search + location.hash, document.title)
-    }
-  }, [location])
-
   return (
     <div className="app-root">
       <nav className="top-nav">

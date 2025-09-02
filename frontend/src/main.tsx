@@ -6,7 +6,6 @@ import App from './App.tsx'
 import DraftPage from './pages/DraftPage'
 import BanPage from './pages/BanPage'
 import AboutPage from './pages/AboutPage'
-import { initAnalytics } from './lib/analytics'
 
 const router = createBrowserRouter([
   {
@@ -28,8 +27,4 @@ createRoot(document.getElementById('root')!).render(
   </StrictMode>,
 )
 
-// Initialize GA only in production builds when an ID is provided
-if (import.meta.env.PROD) {
-  const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined
-  initAnalytics(measurementId)
-}
+// GA is loaded via public/index.html scripts

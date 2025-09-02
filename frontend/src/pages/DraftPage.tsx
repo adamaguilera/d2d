@@ -101,6 +101,7 @@ export default function DraftPage() {
     function clearPick(idx: number) {
         setEnemyPicks((prev) => {
             const next = [...prev]
+            next[idx] = { ...next[idx], weight: 0.5 }
             next[idx] = { ...next[idx], hero: null }
             return next
         })
@@ -124,6 +125,35 @@ export default function DraftPage() {
 
     return (
         <div style={{ display: 'grid', gap: 16, justifyItems: 'center', textAlign: 'center' }}>
+            <section style={{ width: '100%', maxWidth: 900, background: '#f8fafc', border: '1px solid #e5e7eb', borderRadius: 10, padding: 12 }}>
+                <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', textAlign: 'left' }}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flex: '0 0 auto', color: '#0ea5e9' }}>
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
+                        <path d="M12 8h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                        <path d="M12 12v6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                    <div>
+                        <strong>D2Draft – Drafter</strong>
+                        <p style={{ margin: '6px 0 0 0' }}>
+                            D2Drafter is a Dota 2 hero picker to help you draft the best hero for your games.
+                            Select the patch, add enemy heroes currently drafted, and we will surface heroes with
+                            the strongest matchup.
+                        </p>
+                        <ol style={{ marginTop: 8, marginBottom: 8, paddingLeft: 18 }}>
+                            <li>Select the patch number, latest by default</li>
+                            <li>Select the currently drafted enemy heroes</li>
+                            <li>Review the list of heroes with the best matchup</li>
+                        </ol>
+                        <p style={{ margin: 0 }}>
+                            Data refreshes daily and is tuned for average pub matches (not over-indexed on pro or high MMR).
+                            Hero roles are determined dynamically each patch based on role pick rates.
+                        </p>
+                        <p style={{ marginTop: 8, marginBottom: 0 }}>
+                            Leave any feedback via email at <a href="mailto:admin@d2draft.com">admin@d2draft.com</a>  I'd love to hear what you think.
+                        </p>
+                    </div>
+                </div>
+            </section>
             <section style={{ display: 'flex', alignItems: 'center', gap: 12, justifyContent: 'center' }}>
                 <label htmlFor="patch">Patch</label>
                 <select id="patch" value={patch} onChange={(e) => setPatch(e.target.value)}>

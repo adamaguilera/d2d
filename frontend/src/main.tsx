@@ -19,6 +19,7 @@ const router = createBrowserRouter([
       { path: '/about', element: <AboutPage /> },
     ],
   },
+  { path: '*', element: <Navigate to="/" replace /> },
 ])
 
 createRoot(document.getElementById('root')!).render(

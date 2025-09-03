@@ -136,17 +136,15 @@ export default function DraftPage() {
                         <strong>D2Draft – Drafter</strong>
                         <p style={{ margin: '6px 0 0 0' }}>
                             D2Drafter is a Dota 2 hero picker to help you draft the best hero for your games.
-                            Select the patch, add enemy heroes currently drafted, and we will surface heroes with
-                            the strongest matchup.
                         </p>
                         <ol style={{ marginTop: 8, marginBottom: 8, paddingLeft: 18 }}>
-                            <li>Select the patch number, latest by default</li>
-                            <li>Select the currently drafted enemy heroes</li>
-                            <li>Review the list of heroes with the best matchup</li>
+                            <li>Select the patch</li>
+                            <li>Select any drafted enemy heroes</li>
+                            <li>Filter by role</li>
+                            <li>See the best hero matchups!</li>
                         </ol>
                         <p style={{ margin: 0 }}>
-                            Data refreshes daily and is tuned for average pub matches (not over-indexed on pro or high MMR).
-                            Hero roles are determined dynamically each patch based on role pick rates.
+                            Data is refreshed daily and is taken from average pub matches. Hero roles are determined each patch based on role pick rates.
                         </p>
                         <p style={{ marginTop: 8, marginBottom: 0 }}>
                             Leave any feedback via email at <a href="mailto:admin@d2draft.com">admin@d2draft.com</a>  I'd love to hear what you think.

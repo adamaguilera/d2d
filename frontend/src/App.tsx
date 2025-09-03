@@ -7,7 +7,7 @@ function App() {
     <div className="app-root">
       <nav className="top-nav">
         <Link to="/draft" className="brand">
-          <img className="brand-icon" src={withBase('content/images/brand/captain.png')} alt="" />
+          <img className="brand-icon" src={withBase('content/images/brand/captain-logo-white-bg.png')} alt="" />
           <span>D2Draft</span>
         </Link>
         <div className="nav-links">

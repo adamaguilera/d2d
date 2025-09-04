@@ -41,6 +41,21 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+      - name: Create or reuse PR branch (idempotent)
+        run: |
+          set -e
+          BR=auto-${{ steps.date.outputs.stamp }}
+          git fetch origin
+          if git show-ref --verify --quiet refs/heads/$BR; then
+            git checkout $BR
+          elif git ls-remote --exit-code --heads origin $BR >/dev/null 2>&1; then
+            git checkout -b $BR origin/$BR
+          else
+            git checkout -b $BR
+            git commit --allow-empty -m "chore: prepare data refresh for ${{ steps.date.outputs.today }}"
+            git push --set-upstream origin $BR
+          fi
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -83,19 +98,6 @@ jobs:
           else
             echo "No content changes to commit."
           fi
-
-      - name: Create Pull Request (after commit)
-        id: ghpr
-        env:
-          GH_TOKEN: ${{ env.PR_TOKEN }}
-        run: |
-          gh pr create \
-            --title "Data refresh for ${{ steps.date.outputs.today }}" \
-            --body "Automated data refresh run ${{ steps.date.outputs.stamp }}" \
-            --base main \
-            --head auto-${{ steps.date.outputs.stamp }}
-          pr_number=$(gh pr view auto-${{ steps.date.outputs.stamp }} --json number -q .number)
-          echo "number=$pr_number" >> $GITHUB_OUTPUT
 
       - name: Merge PR (squash) with PAT so downstream workflows run
         if: ${{ steps.ghpr.outputs.number != '' }}

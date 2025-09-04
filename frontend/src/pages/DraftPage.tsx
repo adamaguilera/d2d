@@ -31,6 +31,12 @@ function logOddsToPct(lo: number) {
     return 100 * p
 }
 
+// Format hero slug for Dota2ProTracker URLs
+function proTrackerSlug(slug: string): string {
+    if (slug === 'natures-prophet') return "nature's%20prophet"
+    return slug.replace(/-/g, '%20')
+}
+
 const PATCHES = ['7.39D']
 
 export default function DraftPage() {
@@ -434,6 +440,7 @@ function ResultsTable({ results, enemies, patch }: { results: CounterResult[]; e
                                 </button>
                             </div>
                         </th>
+                        <th style={{ textAlign: 'center', padding: 8, borderBottom: '1px solid #ddd' }}>Builds</th>
                         <th style={{ textAlign: 'right', padding: 8, borderBottom: '1px solid #ddd' }}>Result</th>
                         {enemies.map((e) => (
                             <th key={e.slug} style={{ textAlign: 'right', padding: 8, borderBottom: '1px solid #ddd' }}>
@@ -483,6 +490,21 @@ function ResultsTable({ results, enemies, patch }: { results: CounterResult[]; e
                                         )}
                                     </div>
                                 </div>
+                            </td>
+                            <td style={{ padding: 8, borderBottom: '1px solid #f0f0f0', textAlign: 'center' }}>
+                                <a
+                                    href={`https://dota2protracker.com/hero/${proTrackerSlug(r.hero)}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    title={`View ${r.hero.replace(/-/g, ' ')} builds on Dota2ProTracker`}
+                                    style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: 6, borderRadius: 6, color: '#0ea5e9', textDecoration: 'none' }}
+                                >
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                        <path d="M15 3h6v6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                        <path d="M10 14L21 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                </a>
                             </td>
                             <td style={{ padding: 8, borderBottom: '1px solid #f0f0f0', textAlign: 'right' }}>{r.combined.toFixed(2)}%</td>
                             {r.perEnemy.map((pe) => (

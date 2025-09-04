@@ -115,12 +115,11 @@ jobs:
           pr_number=$(gh pr view auto-${{ steps.date.outputs.stamp }} --json number -q .number)
           echo "number=$pr_number" >> $GITHUB_OUTPUT
 
-      - name: Enable auto-merge on PR
+      - name: Merge PR (squash) with PAT so downstream workflows run
         if: ${{ steps.ghpr.outputs.number != '' }}
-        uses: peter-evans/enable-pull-request-automerge@v3
-        with:
-          token: ${{ env.PR_TOKEN }}
-          pull-request-number: ${{ steps.ghpr.outputs.number }}
-          merge-method: squash
+        env:
+          GH_TOKEN: ${{ env.PR_TOKEN }}
+        run: |
+          gh pr merge ${{ steps.ghpr.outputs.number }} --squash --delete-branch
 
 

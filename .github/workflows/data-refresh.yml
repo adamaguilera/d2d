@@ -22,15 +22,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Temporarily disabled so manual runs can test end-to-end
-      # - name: Run only at 10:00 America/New_York
-      #   run: |
-      #     hour=$(TZ=America/New_York date +%H)
-      #     if [ "$hour" != "10" ]; then
-      #       echo "Current hour in New York is $hour, not 10. Exiting."
-      #       exit 0
-      #     fi
-
       - name: Compute branch date (America/New_York)
         id: date
         run: |
@@ -49,13 +40,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-      - name: Create PR branch early
-        run: |
-          git checkout -b auto-${{ steps.date.outputs.stamp }}
-          git commit --allow-empty -m "chore: prepare data refresh for ${{ steps.date.outputs.today }}"
-          git push --set-upstream origin auto-${{ steps.date.outputs.stamp }}
-
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -89,7 +73,9 @@ jobs:
 
       - name: Commit content changes to PR branch
         run: |
-          git checkout auto-${{ steps.date.outputs.stamp }}
+          BR=auto-${{ steps.date.outputs.stamp }}
+          git checkout $BR
+          git pull --ff-only || true
           git add content/** || true
           if ! git diff --cached --quiet; then
             git commit -m "data: auto-refresh content for ${{ steps.date.outputs.today }}"
@@ -98,20 +84,16 @@ jobs:
             echo "No content changes to commit."
           fi
 
-      - name: Create or update Pull Request (after commit)
+      - name: Create Pull Request (after commit)
         id: ghpr
         env:
           GH_TOKEN: ${{ env.PR_TOKEN }}
         run: |
-          if gh pr view auto-${{ steps.date.outputs.stamp }} >/dev/null 2>&1; then
-            echo "PR already exists for branch auto-${{ steps.date.outputs.stamp }}"
-          else
-            gh pr create \
-              --title "Data refresh for ${{ steps.date.outputs.today }}" \
-              --body "Automated data refresh run ${{ steps.date.outputs.stamp }}" \
-              --base main \
-              --head auto-${{ steps.date.outputs.stamp }}
-          fi
+          gh pr create \
+            --title "Data refresh for ${{ steps.date.outputs.today }}" \
+            --body "Automated data refresh run ${{ steps.date.outputs.stamp }}" \
+            --base main \
+            --head auto-${{ steps.date.outputs.stamp }}
           pr_number=$(gh pr view auto-${{ steps.date.outputs.stamp }} --json number -q .number)
           echo "number=$pr_number" >> $GITHUB_OUTPUT
 

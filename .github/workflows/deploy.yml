@@ -6,6 +6,10 @@ on:
   pull_request:
     types: [ closed ]
     branches: [ main ]
+  schedule:
+    # 11:00 America/New_York crosses DST; run at both UTC times
+    - cron: '0 16 * * *' # 11:00 EST
+    - cron: '0 15 * * *' # 11:00 EDT
   workflow_dispatch:
 
 permissions:

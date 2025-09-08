@@ -26,7 +26,6 @@ jobs:
         id: date
         run: |
           echo "today=$(TZ=America/New_York date +%F)" >> $GITHUB_OUTPUT
-          echo "stamp=$(TZ=America/New_York date +%F-%H-%M)" >> $GITHUB_OUTPUT
 
       - name: Resolve PR token
         run: |
@@ -41,20 +40,23 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Create or reuse PR branch (idempotent)
+      - name: Recreate PR branch fresh (no reuse)
         run: |
           set -e
-          BR=auto-${{ steps.date.outputs.stamp }}
-          git fetch origin
+          BR=auto-${{ steps.date.outputs.today }}
+          git fetch origin || true
+          # Delete local branch if it exists
           if git show-ref --verify --quiet refs/heads/$BR; then
-            git checkout $BR
-          elif git ls-remote --exit-code --heads origin $BR >/dev/null 2>&1; then
-            git checkout -b $BR origin/$BR
-          else
-            git checkout -b $BR
-            git commit --allow-empty -m "chore: prepare data refresh for ${{ steps.date.outputs.today }}"
-            git push --set-upstream origin $BR
+            git branch -D $BR
           fi
+          # Delete remote branch if it exists
+          if git ls-remote --exit-code --heads origin $BR >/dev/null 2>&1; then
+            git push origin --delete $BR
+          fi
+          # Create fresh branch and push
+          git checkout -b $BR
+          git commit --allow-empty -m "chore: prepare data refresh for ${{ steps.date.outputs.today }}"
+          git push --set-upstream origin $BR
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -88,7 +90,7 @@ jobs:
 
       - name: Commit content changes to PR branch
         run: |
-          BR=auto-${{ steps.date.outputs.stamp }}
+          BR=auto-${{ steps.date.outputs.today }}
           git checkout $BR
           git pull --ff-only || true
           git add content/** || true
@@ -99,11 +101,18 @@ jobs:
             echo "No content changes to commit."
           fi
 
-      - name: Merge PR (squash) with PAT so downstream workflows run
-        if: ${{ steps.ghpr.outputs.number != '' }}
+      - name: Create PR and enable auto-merge
         env:
           GH_TOKEN: ${{ env.PR_TOKEN }}
         run: |
-          gh pr merge ${{ steps.ghpr.outputs.number }} --squash --delete-branch
+          set -e
+          BR=auto-${{ steps.date.outputs.today }}
+          gh pr create \
+            --title "Data refresh for ${{ steps.date.outputs.today }}" \
+            --body "Automated data refresh run for ${{ steps.date.outputs.today }}" \
+            --base main \
+            --head "$BR"
+          pr_number=$(gh pr view "$BR" --json number -q .number)
+          gh pr merge "$pr_number" --squash --auto
 
 

@@ -1,0 +1,757 @@
+{
+  "hero": "phantom-lancer",
+  "patch": "7.39E",
+  "updated_at": "2025-10-03T15:15:06Z",
+  "matchups": [
+    {
+      "opponent": "abaddon",
+      "winrate": 47.6918,
+      "disadvantage": 0.2443,
+      "matches": 32234
+    },
+    {
+      "opponent": "alchemist",
+      "winrate": 50.0052,
+      "disadvantage": 0.1754,
+      "matches": 28655
+    },
+    {
+      "opponent": "ancient-apparition",
+      "winrate": 52.4933,
+      "disadvantage": -2.7002,
+      "matches": 37439
+    },
+    {
+      "opponent": "anti-mage",
+      "winrate": 46.9491,
+      "disadvantage": 2.1205,
+      "matches": 92089
+    },
+    {
+      "opponent": "arc-warden",
+      "winrate": 54.6484,
+      "disadvantage": -3.8948,
+      "matches": 15005
+    },
+    {
+      "opponent": "axe",
+      "winrate": 44.4329,
+      "disadvantage": 4.9341,
+      "matches": 68465
+    },
+    {
+      "opponent": "bane",
+      "winrate": 52.3761,
+      "disadvantage": -1.359,
+      "matches": 17949
+    },
+    {
+      "opponent": "batrider",
+      "winrate": 56.055,
+      "disadvantage": 0.0232,
+      "matches": 9298
+    },
+    {
+      "opponent": "beastmaster",
+      "winrate": 51.4928,
+      "disadvantage": 4.2075,
+      "matches": 23747
+    },
+    {
+      "opponent": "bloodseeker",
+      "winrate": 49.6438,
+      "disadvantage": 2.0304,
+      "matches": 18252
+    },
+    {
+      "opponent": "bounty-hunter",
+      "winrate": 53.0023,
+      "disadvantage": -1.5289,
+      "matches": 24231
+    },
+    {
+      "opponent": "brewmaster",
+      "winrate": 49.8695,
+      "disadvantage": 1.5199,
+      "matches": 4598
+    },
+    {
+      "opponent": "bristleback",
+      "winrate": 55.3041,
+      "disadvantage": 0.012,
+      "matches": 31070
+    },
+    {
+      "opponent": "broodmother",
+      "winrate": 50.5747,
+      "disadvantage": -2.179,
+      "matches": 14529
+    },
+    {
+      "opponent": "centaur-warrunner",
+      "winrate": 45.8657,
+      "disadvantage": 3.3498,
+      "matches": 31106
+    },
+    {
+      "opponent": "chaos-knight",
+      "winrate": 54.7448,
+      "disadvantage": -5.2947,
+      "matches": 24806
+    },
+    {
+      "opponent": "chen",
+      "winrate": 57.956,
+      "disadvantage": -3.3875,
+      "matches": 3865
+    },
+    {
+      "opponent": "clinkz",
+      "winrate": 54.5926,
+      "disadvantage": -5.8523,
+      "matches": 25410
+    },
+    {
+      "opponent": "clockwerk",
+      "winrate": 52.3227,
+      "disadvantage": -2.8376,
+      "matches": 24368
+    },
+    {
+      "opponent": "crystal-maiden",
+      "winrate": 46.0819,
+      "disadvantage": 5.3851,
+      "matches": 47409
+    },
+    {
+      "opponent": "dark-seer",
+      "winrate": 45.6428,
+      "disadvantage": 5.9539,
+      "matches": 7723
+    },
+    {
+      "opponent": "dark-willow",
+      "winrate": 53.9535,
+      "disadvantage": -2.0088,
+      "matches": 24990
+    },
+    {
+      "opponent": "dawnbreaker",
+      "winrate": 47.0591,
+      "disadvantage": 0.7285,
+      "matches": 53352
+    },
+    {
+      "opponent": "dazzle",
+      "winrate": 51.0652,
+      "disadvantage": -2.1135,
+      "matches": 29008
+    },
+    {
+      "opponent": "death-prophet",
+      "winrate": 54.5123,
+      "disadvantage": -1.5234,
+      "matches": 15668
+    },
+    {
+      "opponent": "disruptor",
+      "winrate": 49.0601,
+      "disadvantage": 0.5827,
+      "matches": 41123
+    },
+    {
+      "opponent": "doom",
+      "winrate": 57.596,
+      "disadvantage": -0.0931,
+      "matches": 19260
+    },
+    {
+      "opponent": "dragon-knight",
+      "winrate": 50.652,
+      "disadvantage": 0.0609,
+      "matches": 31594
+    },
+    {
+      "opponent": "drow-ranger",
+      "winrate": 53.947,
+      "disadvantage": -3.5297,
+      "matches": 54129
+    },
+    {
+      "opponent": "earth-spirit",
+      "winrate": 51.0629,
+      "disadvantage": 0.572,
+      "matches": 11572
+    },
+    {
+      "opponent": "earthshaker",
+      "winrate": 43.8339,
+      "disadvantage": 5.4138,
+      "matches": 97518
+    },
+    {
+      "opponent": "elder-titan",
+      "winrate": 47.5064,
+      "disadvantage": 3.0587,
+      "matches": 6597
+    },
+    {
+      "opponent": "ember-spirit",
+      "winrate": 50.7911,
+      "disadvantage": 2.201,
+      "matches": 22372
+    },
+    {
+      "opponent": "enchantress",
+      "winrate": 53.1526,
+      "disadvantage": -2.1471,
+      "matches": 16304
+    },
+    {
+      "opponent": "enigma",
+      "winrate": 49.8006,
+      "disadvantage": 0.7428,
+      "matches": 17052
+    },
+    {
+      "opponent": "faceless-void",
+      "winrate": 52.59,
+      "disadvantage": -0.7294,
+      "matches": 50597
+    },
+    {
+      "opponent": "grimstroke",
+      "winrate": 50.9104,
+      "disadvantage": 1.0267,
+      "matches": 20760
+    },
+    {
+      "opponent": "gyrocopter",
+      "winrate": 52.0547,
+      "disadvantage": 0.8514,
+      "matches": 24991
+    },
+    {
+      "opponent": "hoodwink",
+      "winrate": 53.6624,
+      "disadvantage": -1.0441,
+      "matches": 58512
+    },
+    {
+      "opponent": "huskar",
+      "winrate": 54.2665,
+      "disadvantage": -2.5544,
+      "matches": 31231
+    },
+    {
+      "opponent": "invoker",
+      "winrate": 53.3737,
+      "disadvantage": -1.9091,
+      "matches": 93205
+    },
+    {
+      "opponent": "io",
+      "winrate": 49.8115,
+      "disadvantage": 1.476,
+      "matches": 14860
+    },
+    {
+      "opponent": "jakiro",
+      "winrate": 51.2924,
+      "disadvantage": 1.7291,
+      "matches": 44913
+    },
+    {
+      "opponent": "juggernaut",
+      "winrate": 48.4566,
+      "disadvantage": -1.2239,
+      "matches": 99297
+    },
+    {
+      "opponent": "keeper-of-the-light",
+      "winrate": 52.8596,
+      "disadvantage": 0.6212,
+      "matches": 11907
+    },
+    {
+      "opponent": "kez",
+      "winrate": 52.8313,
+      "disadvantage": -0.1073,
+      "matches": 15046
+    },
+    {
+      "opponent": "kunkka",
+      "winrate": 49.6996,
+      "disadvantage": 2.6379,
+      "matches": 20974
+    },
+    {
+      "opponent": "legion-commander",
+      "winrate": 47.0402,
+      "disadvantage": 1.4575,
+      "matches": 89670
+    },
+    {
+      "opponent": "leshrac",
+      "winrate": 44.213,
+      "disadvantage": 4.7137,
+      "matches": 23432
+    },
+    {
+      "opponent": "lich",
+      "winrate": 47.2376,
+      "disadvantage": 0.6754,
+      "matches": 49198
+    },
+    {
+      "opponent": "lifestealer",
+      "winrate": 49.1324,
+      "disadvantage": -0.3093,
+      "matches": 47893
+    },
+    {
+      "opponent": "lina",
+      "winrate": 49.4336,
+      "disadvantage": 5.7916,
+      "matches": 44140
+    },
+    {
+      "opponent": "lion",
+      "winrate": 50.4501,
+      "disadvantage": 0.6273,
+      "matches": 130295
+    },
+    {
+      "opponent": "lone-druid",
+      "winrate": 51.45,
+      "disadvantage": -1.6713,
+      "matches": 10241
+    },
+    {
+      "opponent": "luna",
+      "winrate": 51.5118,
+      "disadvantage": -0.6473,
+      "matches": 38925
+    },
+    {
+      "opponent": "lycan",
+      "winrate": 54.3322,
+      "disadvantage": -3.0345,
+      "matches": 13261
+    },
+    {
+      "opponent": "magnus",
+      "winrate": 49.1079,
+      "disadvantage": 2.624,
+      "matches": 64344
+    },
+    {
+      "opponent": "marci",
+      "winrate": 50.6062,
+      "disadvantage": 0.8568,
+      "matches": 42226
+    },
+    {
+      "opponent": "mars",
+      "winrate": 54.9567,
+      "disadvantage": -2.4304,
+      "matches": 54552
+    },
+    {
+      "opponent": "medusa",
+      "winrate": 46.7486,
+      "disadvantage": 1.7021,
+      "matches": 70601
+    },
+    {
+      "opponent": "meepo",
+      "winrate": 43.8148,
+      "disadvantage": 2.5816,
+      "matches": 11172
+    },
+    {
+      "opponent": "mirana",
+      "winrate": 51.7757,
+      "disadvantage": -1.654,
+      "matches": 27735
+    },
+    {
+      "opponent": "monkey-king",
+      "winrate": 57.2927,
+      "disadvantage": 0.3723,
+      "matches": 37654
+    },
+    {
+      "opponent": "morphling",
+      "winrate": 57.4474,
+      "disadvantage": -2.5199,
+      "matches": 26264
+    },
+    {
+      "opponent": "muerta",
+      "winrate": 51.1879,
+      "disadvantage": 1.4598,
+      "matches": 17131
+    },
+    {
+      "opponent": "naga-siren",
+      "winrate": 50.9554,
+      "disadvantage": 2.7089,
+      "matches": 8111
+    },
+    {
+      "opponent": "natures-prophet",
+      "winrate": 53.3641,
+      "disadvantage": -0.6396,
+      "matches": 88537
+    },
+    {
+      "opponent": "necrophos",
+      "winrate": 42.6171,
+      "disadvantage": 5.6302,
+      "matches": 71551
+    },
+    {
+      "opponent": "night-stalker",
+      "winrate": 52.1207,
+      "disadvantage": -1.9258,
+      "matches": 19781
+    },
+    {
+      "opponent": "nyx-assassin",
+      "winrate": 48.0171,
+      "disadvantage": 0.3228,
+      "matches": 29225
+    },
+    {
+      "opponent": "ogre-magi",
+      "winrate": 53.8571,
+      "disadvantage": -4.3683,
+      "matches": 101214
+    },
+    {
+      "opponent": "omniknight",
+      "winrate": 50.24,
+      "disadvantage": -0.6471,
+      "matches": 11662
+    },
+    {
+      "opponent": "oracle",
+      "winrate": 48.8619,
+      "disadvantage": -0.6073,
+      "matches": 25701
+    },
+    {
+      "opponent": "outworld-destroyer",
+      "winrate": 53.083,
+      "disadvantage": -3.8215,
+      "matches": 27197
+    },
+    {
+      "opponent": "pangolier",
+      "winrate": 58.0549,
+      "disadvantage": -1.6193,
+      "matches": 13799
+    },
+    {
+      "opponent": "phantom-assassin",
+      "winrate": 53.4112,
+      "disadvantage": 0.5737,
+      "matches": 63438
+    },
+    {
+      "opponent": "phoenix",
+      "winrate": 49.4854,
+      "disadvantage": 1.3122,
+      "matches": 23320
+    },
+    {
+      "opponent": "primal-beast",
+      "winrate": 50.8329,
+      "disadvantage": 2.4489,
+      "matches": 15547
+    },
+    {
+      "opponent": "puck",
+      "winrate": 49.8784,
+      "disadvantage": 2.496,
+      "matches": 41122
+    },
+    {
+      "opponent": "pudge",
+      "winrate": 47.4095,
+      "disadvantage": 1.9899,
+      "matches": 128164
+    },
+    {
+      "opponent": "pugna",
+      "winrate": 50.1106,
+      "disadvantage": -0.0947,
+      "matches": 38421
+    },
+    {
+      "opponent": "queen-of-pain",
+      "winrate": 51.1141,
+      "disadvantage": -0.7815,
+      "matches": 80868
+    },
+    {
+      "opponent": "razor",
+      "winrate": 49.9418,
+      "disadvantage": 1.1978,
+      "matches": 23199
+    },
+    {
+      "opponent": "riki",
+      "winrate": 50.978,
+      "disadvantage": 0.4854,
+      "matches": 22237
+    },
+    {
+      "opponent": "ringmaster",
+      "winrate": 54.4562,
+      "disadvantage": -0.0335,
+      "matches": 13453
+    },
+    {
+      "opponent": "rubick",
+      "winrate": 51.5447,
+      "disadvantage": 1.6782,
+      "matches": 83541
+    },
+    {
+      "opponent": "sand-king",
+      "winrate": 43.4315,
+      "disadvantage": 7.2068,
+      "matches": 48824
+    },
+    {
+      "opponent": "shadow-demon",
+      "winrate": 54.5118,
+      "disadvantage": -1.9662,
+      "matches": 17044
+    },
+    {
+      "opponent": "shadow-fiend",
+      "winrate": 53.1897,
+      "disadvantage": -0.3357,
+      "matches": 98581
+    },
+    {
+      "opponent": "shadow-shaman",
+      "winrate": 51.8361,
+      "disadvantage": -2.7544,
+      "matches": 86814
+    },
+    {
+      "opponent": "silencer",
+      "winrate": 51.6706,
+      "disadvantage": -3.8686,
+      "matches": 81464
+    },
+    {
+      "opponent": "skywrath-mage",
+      "winrate": 49.5235,
+      "disadvantage": 0.1591,
+      "matches": 69258
+    },
+    {
+      "opponent": "slardar",
+      "winrate": 51.8339,
+      "disadvantage": -3.9336,
+      "matches": 49975
+    },
+    {
+      "opponent": "slark",
+      "winrate": 53.7512,
+      "disadvantage": -1.043,
+      "matches": 40427
+    },
+    {
+      "opponent": "snapfire",
+      "winrate": 49.8974,
+      "disadvantage": 1.1077,
+      "matches": 57063
+    },
+    {
+      "opponent": "sniper",
+      "winrate": 54.0954,
+      "disadvantage": -1.7425,
+      "matches": 96962
+    },
+    {
+      "opponent": "spectre",
+      "winrate": 51.3146,
+      "disadvantage": -2.1143,
+      "matches": 34762
+    },
+    {
+      "opponent": "spirit-breaker",
+      "winrate": 50.1093,
+      "disadvantage": -0.6263,
+      "matches": 59426
+    },
+    {
+      "opponent": "storm-spirit",
+      "winrate": 51.7341,
+      "disadvantage": 0.7079,
+      "matches": 33533
+    },
+    {
+      "opponent": "sven",
+      "winrate": 44.3771,
+      "disadvantage": 6.9705,
+      "matches": 91768
+    },
+    {
+      "opponent": "techies",
+      "winrate": 50.7419,
+      "disadvantage": 2.8256,
+      "matches": 49129
+    },
+    {
+      "opponent": "templar-assassin",
+      "winrate": 57.8101,
+      "disadvantage": -4.0703,
+      "matches": 39455
+    },
+    {
+      "opponent": "terrorblade",
+      "winrate": 58.8948,
+      "disadvantage": -4.567,
+      "matches": 27218
+    },
+    {
+      "opponent": "tidehunter",
+      "winrate": 47.0681,
+      "disadvantage": 3.8677,
+      "matches": 23927
+    },
+    {
+      "opponent": "timbersaw",
+      "winrate": 48.7807,
+      "disadvantage": 3.5394,
+      "matches": 25590
+    },
+    {
+      "opponent": "tinker",
+      "winrate": 53.9177,
+      "disadvantage": 0.7852,
+      "matches": 34612
+    },
+    {
+      "opponent": "tiny",
+      "winrate": 53.3878,
+      "disadvantage": 2.6482,
+      "matches": 23097
+    },
+    {
+      "opponent": "treant-protector",
+      "winrate": 51.171,
+      "disadvantage": 0.4243,
+      "matches": 16310
+    },
+    {
+      "opponent": "troll-warlord",
+      "winrate": 49.9484,
+      "disadvantage": -0.1783,
+      "matches": 28121
+    },
+    {
+      "opponent": "tusk",
+      "winrate": 55.6995,
+      "disadvantage": -1.4318,
+      "matches": 22914
+    },
+    {
+      "opponent": "underlord",
+      "winrate": 46.6275,
+      "disadvantage": 5.3971,
+      "matches": 14470
+    },
+    {
+      "opponent": "undying",
+      "winrate": 50.7936,
+      "disadvantage": -1.0542,
+      "matches": 49642
+    },
+    {
+      "opponent": "ursa",
+      "winrate": 53.8236,
+      "disadvantage": -4.3735,
+      "matches": 76786
+    },
+    {
+      "opponent": "vengeful-spirit",
+      "winrate": 50.8481,
+      "disadvantage": -4.2886,
+      "matches": 58419
+    },
+    {
+      "opponent": "venomancer",
+      "winrate": 52.8782,
+      "disadvantage": -3.8027,
+      "matches": 48676
+    },
+    {
+      "opponent": "viper",
+      "winrate": 57.0306,
+      "disadvantage": -5.2306,
+      "matches": 33624
+    },
+    {
+      "opponent": "visage",
+      "winrate": 54.4532,
+      "disadvantage": -4.1319,
+      "matches": 6804
+    },
+    {
+      "opponent": "void-spirit",
+      "winrate": 50.8643,
+      "disadvantage": -1.0893,
+      "matches": 21520
+    },
+    {
+      "opponent": "warlock",
+      "winrate": 44.0894,
+      "disadvantage": 5.7928,
+      "matches": 34523
+    },
+    {
+      "opponent": "weaver",
+      "winrate": 54.596,
+      "disadvantage": -3.8992,
+      "matches": 61226
+    },
+    {
+      "opponent": "windranger",
+      "winrate": 52.9686,
+      "disadvantage": -1.2244,
+      "matches": 65618
+    },
+    {
+      "opponent": "winter-wyvern",
+      "winrate": 48.1363,
+      "disadvantage": 0.8744,
+      "matches": 18861
+    },
+    {
+      "opponent": "witch-doctor",
+      "winrate": 46.8719,
+      "disadvantage": 1.0844,
+      "matches": 95042
+    },
+    {
+      "opponent": "wraith-king",
+      "winrate": 51.0106,
+      "disadvantage": -4.5356,
+      "matches": 73267
+    },
+    {
+      "opponent": "zeus",
+      "winrate": 49.1432,
+      "disadvantage": 1.2742,
+      "matches": 66121
+    }
+  ]
+}

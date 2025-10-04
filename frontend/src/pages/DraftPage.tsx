@@ -37,10 +37,10 @@ function proTrackerSlug(slug: string): string {
     return slug.replace(/-/g, '%20')
 }
 
-const PATCHES = ['7.39D']
+const PATCHES = ['7.39E', '7.39D']
 
 export default function DraftPage() {
-    const [patch, setPatch] = useState<string>(PATCHES[0])
+    const [patch, setPatch] = useState<string>(PATCHES[1])
     const [heroes, setHeroes] = useState<Hero[]>([])
     const [updatedAt, setUpdatedAt] = useState<string | null>(null)
     const [enemyPicks, setEnemyPicks] = useState<EnemyPick[]>([

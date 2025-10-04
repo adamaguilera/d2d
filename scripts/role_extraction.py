@@ -51,7 +51,7 @@ from selenium.webdriver.support import expected_conditions as EC  # type: ignore
 # Configuration
 # =============================================================================
 
-PATCH = "7.39D"
+PATCH = "7.39E"
 ROLES_ORDERED = ["carry", "mid", "offlane", "support", "hard support"]
 BASE_URL = "https://dota2protracker.com/hero/"
 RETRIES_PER_HERO = 3

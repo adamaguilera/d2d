@@ -40,7 +40,7 @@ function proTrackerSlug(slug: string): string {
 const PATCHES = ['7.39E', '7.39D']
 
 export default function DraftPage() {
-    const [patch, setPatch] = useState<string>(PATCHES[1])
+    const [patch, setPatch] = useState<string>(PATCHES[0])
     const [heroes, setHeroes] = useState<Hero[]>([])
     const [updatedAt, setUpdatedAt] = useState<string | null>(null)
     const [enemyPicks, setEnemyPicks] = useState<EnemyPick[]>([

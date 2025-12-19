@@ -177,12 +177,14 @@ def main():
                     help="Run Chrome headless (default: True). Use --no-headless to disable.")
     ap.add_argument("--timeout", type=int, default=25,
                     help="Per-page load/wait timeout (seconds)")
-    ap.add_argument("--sleep-min", type=float, default=0.8,
+    ap.add_argument("--sleep-min", type=float, default=2.5,
                     help="Min sleep between heroes")
-    ap.add_argument("--sleep-max", type=float, default=1.6,
+    ap.add_argument("--sleep-max", type=float, default=4.5,
                     help="Max sleep between heroes")
     ap.add_argument("--only", nargs="*",
                     help="Optional subset of hero slugs to process")
+    ap.add_argument("--force", action="store_true",
+                    help="Force refresh all heroes, ignoring up-to-date checks")
     ap.add_argument("--retries", type=int, default=3,
                     help="Number of retries per hero on failure (default: 3)")
     ap.add_argument("--retry-sleep", type=float, default=5.0,
@@ -240,6 +242,7 @@ def main():
 
     saved_paths: List[Path] = []
     failures: List[str] = []
+    skipped: List[str] = []
 
     try:
         print("Discovering hero slugs …")
@@ -253,9 +256,9 @@ def main():
         for idx, slug in enumerate(slugs, start=1):
             print(f"[{idx}/{len(slugs)}] Processing hero: {slug}")
 
-            # Skip if an up-to-date JSON already exists for this hero
+            # Skip if an up-to-date JSON already exists for this hero (unless --force)
             out_path = out_dir / f"{slug}.json"
-            if out_path.exists():
+            if not args.force and out_path.exists():
                 try:
                     existing = json.loads(out_path.read_text(encoding="utf-8"))
                     # Prefer top-level updated_at; fall back to legacy metadata.updated_at
@@ -272,6 +275,7 @@ def main():
                                 print(
                                     f"  - Up-to-date ({updated_at_str}). Skipping {slug}"
                                 )
+                                skipped.append(slug)
                                 continue
                         except (ValueError, TypeError):
                             # If parsing fails, proceed to refresh
@@ -335,6 +339,7 @@ def main():
     # Summary
     print("\n=== Summary ===")
     print(f"Saved:   {len(saved_paths)} files")
+    print(f"Skipped: {len(skipped)} files (already up-to-date)")
     if failures:
         print(
             f"Failures ({len(failures)}): {', '.join(failures)}", file=sys.stderr)
@@ -355,6 +360,16 @@ def main():
     meta_path.write_text(json.dumps(metadata, indent=2,
                          ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"Saved {meta_path}")
+
+    # Exit with error code if too many failures (more than 10% of heroes)
+    total_heroes = len(slugs)
+    if failures and len(failures) > total_heroes * 0.1:
+        print(
+            f"\nERROR: Too many failures ({len(failures)}/{total_heroes}). "
+            "This may indicate rate limiting or anti-bot protection.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
 
 
 if __name__ == "__main__":
